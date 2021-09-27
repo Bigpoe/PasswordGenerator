@@ -6,10 +6,10 @@ from os.path import exists
 class SaveEntry:
 
     def __init__(self):
-        self.passwords_folder = 'passwords'
-        self.file_name = 'passwords.txt'
         project_path = pathlib.Path().resolve()
-        self.path = os.path.join(project_path, self.passwords_folder, self.file_name) 
+        self.passwords_folder = str(project_path) + '/passwords'
+        self.file_name = 'passwords.txt'
+        self.path = os.path.join(self.passwords_folder, self.file_name)
 
 
     def check_if_url_exists(self, url_name):
@@ -38,8 +38,9 @@ class SaveEntry:
             entry.append(password)
             entry = separator.join(entry)
             
-            ## Creates the Passwords.csv file if it does not exist ##
+            ## Creates the /PasswordGenerator/passwords/passwords.txt file if it does not exist ##
             if not exists(self.path):
+                os.makedirs(self.passwords_folder)
                 with open(self.path, 'w') as file:
                     file.write("")
                 print('Passwords.txt file created')
@@ -56,4 +57,4 @@ class SaveEntry:
                 file.write(entry + '\n')
 
         except NameError:
-            print('Something wrong happened saving the entry in the Passwords.csv file ')
+            print('Something wrong happened saving the entry in the Passwords.txt file ')
